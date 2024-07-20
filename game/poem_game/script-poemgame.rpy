@@ -141,36 +141,41 @@ init python:
                 else:
                     t = monika_word
 
-            # If we are not in a bugged poem game state, do normal stuff, else do buggy stuff
-            if not poemgame_glitch:
-                if t.glitch: #This conditional controls what happens when the glitch word is selected.
-                    poemgame_glitch = True
-                    renpy.music.play(audio.t4g)
-                    renpy.show("white")
-                    renpy.show("y_sticker glitch", at_list=[sticker_glitch], zorder=10)
-                elif persistent.playthrough != 3:
-                    renpy.play(gui.activate_sound)
-                    # Act 1
-                    if persistent.playthrough == 0:
-                        if t.oPoint >= 3:
-                            renpy.show("o_sticker hop")
-                        if t.aPoint >= 3:
-                            renpy.show("a_sticker hop")
-                    else:
-                        # Act 2
-                        if persistent.playthrough == 2 and chapter == 2 and random.randint(0,10) == 0: renpy.show("m_sticker hop") #1/10 chance for Monika's sticker to show.
-                        elif t.nPoint > t.yPoint: renpy.show("n_sticker hop") #Since there's just Yuri and Natsuki in Act 2, whoever has the higher value for the word hops.
-                        elif persistent.playthrough == 2 and not persistent.seen_sticker and random.randint(0,100) == 0:
-                            renpy.show("y_sticker hopg") #"y_sticker_2g.png". 1/100 chance to see it, if we haven't seen it already.
-                            persistent.seen_sticker = True
-                        elif persistent.playthrough == 2 and chapter == 2: renpy.show("y_sticker_cut hop") #Yuri's cut arms sticker.
-                        else: renpy.show("y_sticker hop")
+# If we are not in a bugged poem game state, do normal stuff, else do buggy stuff
+if not poemgame_glitch:
+    if t.glitch:  # This conditional controls what happens when the glitch word is selected.
+        poemgame_glitch = True
+        renpy.music.play(audio.t4g)
+        renpy.show("white")
+        renpy.show("y_sticker glitch", at_list=[sticker_glitch], zorder=10)
+    elif persistent.playthrough != 3:
+        renpy.play(gui.activate_sound)
+        # Act 1
+        if persistent.playthrough == 0:
+            if t.oPoint >= 3:
+                renpy.show("o_sticker hop")
+            if t.aPoint >= 3:
+                renpy.show("a_sticker hop")
+        else:
+            # Act 2
+            if persistent.playthrough == 2 and chapter == 2 and random.randint(0, 10) == 0:
+                renpy.show("m_sticker hop")  # 1/10 chance for Monika's sticker to show.
+            elif t.nPoint > t.yPoint:
+                renpy.show("n_sticker hop")  # Since there's just Yuri and Natsuki in Act 2, whoever has the higher value for the word hops.
+            elif persistent.playthrough == 2 and not persistent.seen_sticker and random.randint(0, 100) == 0:
+                renpy.show("y_sticker hopg")  # "y_sticker_2g.png". 1/100 chance to see it, if we haven't seen it already.
+                persistent.seen_sticker = True
+            elif persistent.playthrough == 2 and chapter == 2:
+                renpy.show("y_sticker_cut hop")  # Yuri's cut arms sticker.
             else:
-                r = random.randint(0, 10) #1/10 chance to hear "baa", one time.
-                if r == 0 and not played_baa:
-                    renpy.play("gui/sfx/baa.ogg")
-                    played_baa = True
-                elif r <= 5: renpy.play(gui.activate_sound_glitch)
+                renpy.show("y_sticker hop")
+else:
+    r = random.randint(0, 10)  # 1/10 chance to hear "baa", one time.
+    if r == 0 and not played_baa:
+        renpy.play("gui/sfx/baa.ogg")
+        played_baa = True
+    elif r <= 5:
+        renpy.play(gui.activate_sound_glitch)
 
             # Adds points to the characters and progress by 1.
             chibi_o.charPointTotal += t.oPoint
