@@ -4,28 +4,32 @@
 # Still commented a bit by Terra.
 
 init python: 
-     
+    # This dictionary stores every poemword and the class preference values of each character.
     full_wordlist = {}
 
+    # This class holds a word, and point values for each of the four heroines
     class PoemWord:
-        def __init__(self, o, a):
-            self.oPoint = o
-            self.aPoint = a
+        def __init__(self, o, a, p, glitch=False):
+            self.sPoint = o
+            self.nPoint = a
+            self.yPoint = p
+            self.glitch = glitch
     
     with renpy.file("poem_game/poemwords.txt") as pf:
         for line in pf:
             line = line.decode("utf-8").strip()
 
-            if line == '' or '#' in line:
-                continue
+            # Ignore lines beginning with '#' and empty lines
+            if line == '' or '#' in line: continue
 
+            # File format: word,sPoint,nPoint,yPoint
             x = line.split(',')
 
-            if len(x) >= 3 and x[1] != '' and x[2] != '':
-                full_wordlist[x[0]] = PoemWord(int(x[1]), int(x[2]))
+            full_wordlist[x[0]] = PoemWord(int(x[1]), int(x[2]), int(x[3]))
 
-    glitch_word = PoemWord(0, 0)
-    monika_word = PoemWord(0, 0)
+    # For use with Act 2-3 words
+    glitch_word = PoemWord(0, 0, 0, True)
+    monika_word = PoemWord(0, 0, 0, False)
                 
     # This class handles Chibi Movement in a better way
     class ChibiTrans(object):
@@ -106,6 +110,8 @@ init python:
     # Declare Chibi variables for transforms and points (cept Monika), she only needs to move around.
     chibi_o = Chibi('orange')
     chibi_a = Chibi('apple')
+    chibi_m = ChibiTrans()
+    chibi_p = Chibi('pear')
 
     # Start of the poem game in python
     def poem_game_start():
@@ -141,45 +147,43 @@ init python:
                 else:
                     t = monika_word
 
-# If we are not in a bugged poem game state, do normal stuff, else do buggy stuff
-if not poemgame_glitch:
-    if t.glitch:  # This conditional controls what happens when the glitch word is selected.
-        poemgame_glitch = True
-        renpy.music.play(audio.t4g)
-        renpy.show("white")
-        renpy.show("y_sticker glitch", at_list=[sticker_glitch], zorder=10)
-    elif persistent.playthrough != 3:
-        renpy.play(gui.activate_sound)
-        # Act 1
-        if persistent.playthrough == 0:
-            if t.oPoint >= 3:
-                renpy.show("o_sticker hop")
-            if t.aPoint >= 3:
-                renpy.show("a_sticker hop")
-        else:
-            # Act 2
-            if persistent.playthrough == 2 and chapter == 2 and random.randint(0, 10) == 0:
-                renpy.show("m_sticker hop")  # 1/10 chance for Monika's sticker to show.
-            elif t.nPoint > t.yPoint:
-                renpy.show("n_sticker hop")  # Since there's just Yuri and Natsuki in Act 2, whoever has the higher value for the word hops.
-            elif persistent.playthrough == 2 and not persistent.seen_sticker and random.randint(0, 100) == 0:
-                renpy.show("y_sticker hopg")  # "y_sticker_2g.png". 1/100 chance to see it, if we haven't seen it already.
-                persistent.seen_sticker = True
-            elif persistent.playthrough == 2 and chapter == 2:
-                renpy.show("y_sticker_cut hop")  # Yuri's cut arms sticker.
+            # If we are not in a bugged poem game state, do normal stuff, else do buggy stuff
+            if not poemgame_glitch:
+                if t.glitch: #This conditional controls what happens when the glitch word is selected.
+                    poemgame_glitch = True
+                    renpy.music.play(audio.t4g)
+                    renpy.show("white")
+                    renpy.show("y_sticker glitch", at_list=[sticker_glitch], zorder=10)
+                elif persistent.playthrough != 3:
+                    renpy.play(gui.activate_sound)
+                    # Act 1
+                    if persistent.playthrough == 0:
+                        if t.oPoint >= 3:
+                            renpy.show("o_sticker hop")
+                        if t.aPoint >= 3:
+                            renpy.show("a_sticker hop")
+                        if t.pPoint >= 3:
+                            renpy.show("p_sticker hop")
+                    else:
+                        # Act 2
+                        if persistent.playthrough == 2 and chapter == 2 and random.randint(0,10) == 0: renpy.show("m_sticker hop") #1/10 chance for Monika's sticker to show.
+                        elif t.nPoint > t.yPoint: renpy.show("n_sticker hop") #Since there's just Yuri and Natsuki in Act 2, whoever has the higher value for the word hops.
+                        elif persistent.playthrough == 2 and not persistent.seen_sticker and random.randint(0,100) == 0:
+                            renpy.show("y_sticker hopg") #"y_sticker_2g.png". 1/100 chance to see it, if we haven't seen it already.
+                            persistent.seen_sticker = True
+                        elif persistent.playthrough == 2 and chapter == 2: renpy.show("y_sticker_cut hop") #Yuri's cut arms sticker.
+                        else: renpy.show("y_sticker hop")
             else:
-                renpy.show("y_sticker hop")
-else:
-    r = random.randint(0, 10)  # 1/10 chance to hear "baa", one time.
-    if r == 0 and not played_baa:
-        renpy.play("gui/sfx/baa.ogg")
-        played_baa = True
-    elif r <= 5:
-        renpy.play(gui.activate_sound_glitch)
+                r = random.randint(0, 10) #1/10 chance to hear "baa", one time.
+                if r == 0 and not played_baa:
+                    renpy.play("gui/sfx/baa.ogg")
+                    played_baa = True
+                elif r <= 5: renpy.play(gui.activate_sound_glitch)
 
             # Adds points to the characters and progress by 1.
             chibi_o.charPointTotal += t.oPoint
             chibi_a.charPointTotal += t.aPoint
+            chibi_p.charPointTotal += t.pPoint
             progress += 1
     
     # End of the game
@@ -202,6 +206,7 @@ else:
         # Set poem appeal
         o_poemappeal[chapter] = chibi_o.calculate_appeal()
         a_poemappeal[chapter] = chibi_a.calculate_appeal()
+        p_poemappeal[chapter] = chibi_p.calculate_appeal()
 
         # Poem winner always has appeal 1 (loves poem)
         exec(poemwinner[chapter][0] + "_poemappeal[chapter] = 1")
@@ -301,7 +306,7 @@ label poem(transition=True):
         if persistent.playthrough == 2 and chapter == 2:
             show y_sticker_cut at sticker_right #Replace Yuri's sticker with the "cut arms" sticker..
         else:
-            show y_sticker at sticker_right #Yuri's sticker
+            show p_sticker at sticker_right 
         if persistent.playthrough == 2 and chapter == 2:
             show m_sticker at sticker_m_glitch #Monika's sticker
         
@@ -317,8 +322,8 @@ label poem(transition=True):
     $ allow_skipping = False
 
     if persistent.playthrough == 0 and chapter == 0: #Shows the below dialogue the first time the minigame is played.
-        call screen dialog("It's time to write a poem!\n\nPick words you think your favorite fruit\nwill like. Something good might happen with\none of this two who may like your poem the most!", ok_action=Return())
-        
+        call screen dialog("It's time to write a poem!\n\nPick words you think your favorite fruit\nwill like. Something good might happen with\nwhoever likes your poem the most!", ok_action=Return())
+    
     $ poem_game_start()
     $ poem_game_finish()
 
@@ -377,40 +382,112 @@ image bg eyes:
     "images/bg/eyes.png"
 
 image o_sticker:
-    "poem_game/poemgame/o_sticker_1.png"
+    "gui/poemgame/o_sticker_1.png"
     xoffset chibi_o.charOffset xzoom chibi_o.charZoom
     block:
         function chibi_o.randomPauseTime
         parallel:
-            sticker_move_a
+            sticker_move_n
         parallel:
             function chibi_o.randomMoveTime
         repeat
 
 image a_sticker:
-    "poem_game/poemgame/a_sticker_1.png"
+    "gui/poemgame/a_sticker_1.png"
     xoffset chibi_a.charOffset xzoom chibi_a.charZoom
     block:
         function chibi_a.randomPauseTime
         parallel:
-            sticker_move_a
+            sticker_move_n
         parallel:
             function chibi_a.randomMoveTime
         repeat
 
+image p_sticker:
+    "gui/poemgame/p_sticker_1.png"
+    xoffset chibi_p.charOffset xzoom chibi_p.charZoom
+    block:
+        function chibi_p.randomPauseTime
+        parallel:
+            sticker_move_n
+        parallel:
+            function chibi_p.randomMoveTime
+        repeat
+
+image y_sticker_cut:
+    "gui/poemgame/y_sticker_cut_1.png"
+    xoffset chibi_y.charOffset xzoom chibi_y.charZoom
+    block:
+        function chibi_y.randomPauseTime
+        parallel:
+            sticker_move_n
+        parallel:
+            function chibi_y.randomMoveTime
+        repeat
+
+image m_sticker:
+    "gui/poemgame/m_sticker_1.png"
+    xoffset chibi_m.charOffset xzoom chibi_m.charZoom
+    block:
+        function chibi_m.randomPauseTime
+        parallel:
+            sticker_move_n
+        parallel:
+            function chibi_m.randomMoveTime
+        repeat
+
 image o_sticker hop:
-    "poem_game/poemgame/o_sticker_2.png"
+    "gui/poemgame/o_sticker_2.png"
     xoffset chibi_o.charOffset xzoom chibi_o.charZoom
     sticker_hop
     xoffset 0 xzoom 1
     "o_sticker"
 
 image a_sticker hop:
-    "poem_game/poemgame/a_sticker_2.png"
+    "gui/poemgame/a_sticker_2.png"
     xoffset chibi_a.charOffset xzoom chibi_a.charZoom
     sticker_hop
     xoffset 0 xzoom 1
     "a_sticker"
+
+image p_sticker hop:
+    "gui/poemgame/p_sticker_2.png"
+    xoffset chibi_p.charOffset xzoom chibi_p.charZoom
+    sticker_hop
+    xoffset 0 xzoom 1
+    "p_sticker"
+
+image y_sticker_cut hop:
+    "gui/poemgame/y_sticker_cut_2.png"
+    xoffset chibi_y.charOffset xzoom chibi_y.charZoom
+    sticker_hop
+    xoffset 0 xzoom 1
+    "y_sticker_cut"
+
+image y_sticker hopg:
+    "gui/poemgame/y_sticker_2g.png"
+    xoffset chibi_y.charOffset xzoom chibi_y.charZoom
+    sticker_hop
+    xoffset 0 xzoom 1
+    "y_sticker"
+
+image m_sticker hop:
+    "gui/poemgame/m_sticker_2.png"
+    xoffset chibi_m.charOffset xzoom chibi_m.charZoom
+    sticker_hop
+    xoffset 0 xzoom 1
+    "m_sticker"
+
+image y_sticker glitch:
+    "gui/poemgame/y_sticker_1_broken.png"
+    xoffset chibi_y.charOffset xzoom chibi_y.charZoom zoom 3.0
+    block:
+        function chibi_y.randomPauseTime
+        parallel:
+            sticker_move_n
+        parallel:
+            function chibi_y.randomMoveTime
+        repeat
 
 transform sticker_left:
     xcenter 100 yalign 0.9 subpixel True
