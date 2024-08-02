@@ -39,13 +39,13 @@ label poemresponse_start:
         # This if/else statement determines what MC will say in the poem selection
         # menu depending on how many poems you have read.
         if poemsread == 0:
-            $ menutext = "Who should I show my poem to first?"
+            $ menutext = "Who you want to show your poem to first?"
         else:
-            $ menutext = "Who should I show my poem to next?"
+            $ menutext = "Who you want to show your poem to next?"
 
         ## Main Menu of the Poem Responses
         menu:
-            "[menutext]"
+           a "[menutext]"
 
             # These statements will show each character as a option to share your
             # poem with unless their conditions are met.
@@ -69,6 +69,14 @@ label poemresponse_start:
                     "It's probably only fair if I share my poem with him first."
                 call poemresponse_orange
 
+            # This will show Orange as a menu option IF you haven't shared your
+            # poem to her.
+            "Pear" if not p_readpoem:
+                $ p_preadpoem = True
+                if chapter == 1 and poemsread == 0:
+                    mc "I guess Pear, because he seems that kind of people who are into Literature a little bit."
+                    "From how he usually reads books, there's no doubt in that!"
+                call poemresponse_pear
         # This variable increases the poems read by 1.
         $ poemsread += 1
         
@@ -80,6 +88,7 @@ label poemresponse_start:
     # These variables resets the read poem variables back to normal.
     $ a_readpoem = False
     $ o_readpoem = False
+    $ p_readpoem = False
     $ poemsread = 0
     return
 
@@ -116,16 +125,31 @@ label poemresponse_orange:
     $ nextscene = "ch" + pt + str(chapter) + "_o_" + poemopinion
     call expression nextscene
 
+label poemresponse_pear:
+    scene bg kitchen
+    show pear normal zorder 2 at t11
+    with wipeleft_scene
+    
+    if p_poemappeal[chapter - 1] < 0:
+        $ poemopinion = "bad"
+    elif p_poemappeal[chapter - 1] > 0:
+        $ poemopinion = "good"
+
+    # These variables sets the next scene chapter to be called based off the
+    # chapter and poem opinion and calls it.
+    $ nextscene = "ch" + pt + str(chapter) + "_p_" + poemopinion
+    call expression nextscene
+
 ## Poem Opinion Responses
 # This is where the characters will react to how they liked your poem from
 # good to bad.
 label ch1_o_bad:
     o "..."
     mc "...?"
-    o 2b "[player], you wrote this for Apple, right?."
+    o "[player], you wrote this for Apple, right?."
     mc "W-What??"
     mc "How..."
-    o 42c "Because you said you love him~"
+    o "Because you said you love him~"
     mc "Don't say that again!"
     o "his embarrassed expression was funny."
     mc "It was the first time he ever has blushed, hm?"
@@ -143,9 +167,25 @@ label ch1_o_bad:
     o "Hmmmm........"
     return
 
+label ch1_o_med:
+    o "..."
+    mc "...?"
+    o "...Well, it's about what I expected from someone like you."
+    mc "I sort of...mixed styles?"
+    o "Yeah, that's what making it both good and bad!"
+    mc "It's just normal..."
+    mc "I guess It just didn't evoke any emotions."
+    o "Hey! Hey! it's not bad!"
+    o "I'm saying that the way you mixed styles is making it interesting..."
+    mc "I'll pass..."
+    o "Sigh..."
+    o "Well anyway..."
+    return
+
 label ch1_o_good:
     o "..."
     mc "...?"
+    show orange glad zorder 2 at t11
     o "hmmm...you wrote this for me, didn't you?"
     mc "Er..."
     mc "..."
@@ -161,14 +201,17 @@ label ch1_o_good:
     mc "And I am..."
     mc "{nw}Depressed"
     o "Hehe"
-    o "!"
+    show orange shocked zorder 2 at h11
+    o "...!"
     o "Wait what?"
     o "No friends?"
     mc "I have friends but they are all hypocrite and rude and disloyal and anything bad you can imagine!"
     o "Urk--"
     "Orange's retort gets caught in...hm?"
     o "Grrrr..."
+    show orange closedeyes zorder 2 at s11
     o "..."
+    show orange normal zorder 2 at h11
     o "Perhaps if we fruits be good friends to you..."
     o "Then, it would be something that we can turn back to you because Er...we're sort of obligated so we should give you something in return because you seem protective toward us."
     mc "Pretty sure you never actually said that..."
@@ -188,19 +231,34 @@ label ch1_a_bad:
     mc "{nw}I"
     mc "{nw}love"
     mc "{nw}you"
-    show apple embarrassed zorder 2 at hf11
+    show apple embarrassed zorder 2 at h11
     a "E-eh...D-don't say that again!"
     "Can fruits even blush? Well, Apple's blush is making him cuter."
     mc "Er...well, sorry."
     mc "I'm actually serious about that!"
     a "See?"
-    show Apple zorder 2 at d11
+    show Apple mad  zorder 2 at d11
     a "Your making me more embarrassed!"
     mc "Yeah, sorry"
-    show apple closedeyes zorder 2 at f11
+    show apple closedeyes zorder 2 at s11
     a "..."
     "I don't think we had a really good conversation..."
     "But he remembers me Natsuki because this both are acting like a REAL tsundere."
+    return
+
+label ch1_a_med:
+    a "..."
+    a "It's getting odd..."
+    a "it's your first time?"
+    mc "Um...no."
+    mc "It's not that good."
+    mc "Am I the kind of person who would be writing poems in it's spare time?"
+    a "Perhaps you're right~"
+    a "But that's why it's getting odd..."
+    a "Well, to be honest..."
+    a "I thought you are not that kind of poetic people!"
+    a "But you are, anyways..."
+    a "Just don't go poetic over me!"
     return
 
 label ch1_a_good:
@@ -231,4 +289,78 @@ label ch1_a_good:
     "Sayori hugs the sheet against her chest."
     mc "You're so weird, Sayori..."
     s "Ehehe..."
+    return
+
+label ch1_p_bad:
+    y 1g "..."
+    y "Mm..."
+    y "..."
+    "Yuri stares at the poem."
+    "A minute passes, more than enough time for her to finish reading."
+    mc "Um..."
+    y "Oh!"
+    y 3n "S-Sorry...!"
+    y "I forgot to start speaking..."
+    y "U-Um!"
+    mc "It's fine, don't force yourself."
+    y 2v "I'm not..."
+    y "I just need to put my thoughts into words."
+    y "Hold on..."
+    y "...Okay."
+    y 1f "This is your first time writing a poem, right?"
+    mc "Er, yeah..."
+    mc "Why do you ask?"
+    y "I'm just making sure."
+    y "I guessed that it might be after reading through it."
+    mc "Ah, so it's that bad."
+    y 2p "No!!"
+    y 2o "...Did I just raise my voice...?"
+    y 4c "Uu, I'm so sorry..."
+    "Yuri buries her face in her hands."
+    "I couldn't help but notice that it's been several minutes and we really haven't gotten anywhere."
+    "It might take Yuri a while to get used to new people..."
+    mc "It's fine, I really didn't notice."
+    mc "What were you saying?"
+    y 2u "Right...um..."
+    return
+
+label ch1_p_med:
+    jump ch1_p_bad
+
+label ch1_p_good:
+    y 1e "..."
+    "As Yuri reads the poem, I notice her eyes lighten."
+    y 2f "...Exceptional."
+    mc "Eh? What was that?"
+    y "...?"
+    y 2n "D-Did I say that out loud...?"
+    "Yuri first covers her mouth, but then ends up covering her whole face."
+    y 4c "I...!"
+    y "Uu..."
+    y "{i}(He's going to hate me...){/i}"
+    mc "Um..."
+    mc "You really didn't do anything wrong, Yuri..."
+    y 4a "Eh...?"
+    y "That's..."
+    y 2q "I-I guess you're right..."
+    y "What am I getting so nervous for?"
+    y "A-Ahaha..."
+    show yuri 2l at t11
+    "Yuri takes a breath."
+    y "So..."
+    y 1a "What kind of writing experience do you have?"
+    y "Your use of imagery and metaphors indicates you've written a lot of poetry before."
+    mc "Really...?"
+    mc "Wow, that's a huge compliment coming from you."
+    mc "This is actually my first time, really."
+    y 1e "Huh...?"
+    "Yuri stares at me blankly, then looks at my poem again."
+    y "..."
+    y 2h "...Well, I know that!"
+    y "I just meant...u-um..."
+    "Yuri trails off, unable to find an excuse."
+    "She traces her finger along the words in the poem, as if breaking it down more thoroughly."
+    y 2l "...Yeah."
+    y "Okay."
+    y "This is the reason I was able to tell."
     return
