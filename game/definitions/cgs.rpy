@@ -290,6 +290,15 @@ image desk2:
 # you notice Apple and he gets shocked by it.
 image desk3:
     "mod_assets/desk3"
+## Apple's route [Day 1]
+# this is a CG when MC (like he said) seemingly hugs Apple.
+image hug_a:
+    "mod_assets/hug_a.png"
+
+## Pear's route [Day 1]
+# this is a CG when MC and Pear read Portrait of Markov.
+image read_p:
+    "mod_assets/read_p.png" 
 
 ## Sayori Suicide CG
 # This is the background of the CG (Sayori's Room).
