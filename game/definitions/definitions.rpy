@@ -1435,6 +1435,15 @@ image apple embarrassed = im.Composite((960, 960), (0, 0), "mod_assets/apple/emb
 image apple sad = im.Composite((960, 960), (0, 0), "mod_assets/apple/sad.png")
 image apple normal = im.Composite((960, 960), (0, 0), "mod_assets/apple/normal.png")
 
+
+# Orange's definition
+image orange shocked = im.Composite((960, 960), (0, 0), "mod_assets/orange/shocked.png")
+image orange closedeyes = im.Composite((960, 960), (0, 0), "mod_assets/orange/closedeyes.png")
+image orange sheepish = im.Composite((960, 960), (0, 0), "mod_assets/orange/sheepsish.png")
+image orange normal = im.Composite((960, 960), (0, 0), "mod_assets/orange/normal.png")
+image orange evil = im.Composite((960, 960), (0, 0), "mod_assets/orange/evil.png")
+image orange glad = im.Composite((960, 960), (0, 0), "mod_assets/orange/glad.png")
+
 ## Character Variables
 # This is where the characters are declared in the mod.
 # To define a new character with assets, declare a character variable like in this example:
