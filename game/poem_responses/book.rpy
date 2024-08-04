@@ -12,21 +12,21 @@ label book:
     play music t6r
     if renpy.random.randint(0,2) == 0:
         $ config.mouse = {"default": [
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
-                                    ("mod_assets/FATAL precision.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
+                                    ("mod_assets/Working in Background--alt.ani", 0, 0),
                                     ]}
 
     "Irregular heartbeat. Heart palpitations. Arrhythmia."
@@ -44,4 +44,5 @@ label book:
     "Reiner said he would be with her shortly. Is he in her room now?"
     "Why is the screaming even louder than before?"
     nvl clear
+    define narrator = Character(ctc="ctc", ctc_position="fixed")
     jump back
