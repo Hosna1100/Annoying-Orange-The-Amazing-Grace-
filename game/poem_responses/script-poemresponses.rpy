@@ -39,28 +39,28 @@ label poemresponse_start:
         # This if/else statement determines what MC will say in the poem selection
         # menu depending on how many poems you have read.
         if poemsread == 0:
-            $ menutext = "Who you want to show your poem to first?"
+            $ menutext = "Who I want to show my poem to first?"
         else:
-            $ menutext = "Who you want to show your poem to next?"
+            $ menutext = "Who I want to show my poem to next?"
 
         ## Main Menu of the Poem Responses
         menu:
-           a "[menutext]"
+            "[menutext]"
 
             # These statements will show each character as a option to share your
             # poem with unless their conditions are met.
 
-            # This will show Apple as a menu option IF you haven't shared your
-            # poem to him and you are in Act 1.
-            "Apple" if not a_readpoem and persistent.playthrough == 0:
+            # This will show Sayori as a menu option IF you haven't shared your
+            # poem to her and you are in Act 1.
+            "Apple" if not a_readpoem:
                 # This variable sets that you have read Sayori's poem.
                 $ a_readpoem = True
                 if chapter == 1 and poemsread == 0:
-                    mc "...you, Apple!"
+                   mc "...you, Apple!"
                 # This call statement calls Sayori's poem response script.
                 call poemresponse_apple
 
-            # This will show Orange as a menu option IF you haven't shared your
+            # This will show Natsuki as a menu option IF you haven't shared your
             # poem to her.
             "Orange" if not o_readpoem:
                 $ o_readpoem = True
@@ -69,14 +69,15 @@ label poemresponse_start:
                     "It's probably only fair if I share my poem with him first."
                 call poemresponse_orange
 
-            # This will show Orange as a menu option IF you haven't shared your
-            # poem to her.
+            # This will show Yuri as a menu option IF you haven't shared your
+            # poem to her and she didn't run away from you in Act 2.
             "Pear" if not p_readpoem:
-                $ p_preadpoem = True
+                $ p_readpoem = True
                 if chapter == 1 and poemsread == 0:
                     mc "I guess Pear, because he seems that kind of people who are into Literature a little bit."
                     "From how he usually reads books, there's no doubt in that!"
                 call poemresponse_pear
+
         # This variable increases the poems read by 1.
         $ poemsread += 1
         
@@ -262,105 +263,78 @@ label ch1_a_med:
     return
 
 label ch1_a_good:
-    s 1n "..."
-    s "...Oh my goodness!"
-    s 4b "This is sooooo good, [player]!"
+    a "..."
+    show apple smiling zorder 2 at h11
+    a "It's soooooo interesting!"
     mc "Eh?"
-    s 4r "I love it~!"
-    s "I had no idea you were such a good writer!"
-    mc "Sayori..."
-    mc "You must be seriously overreacting."
-    mc "I'm not a good writer at all."
-    mc "I honestly have no idea what I'm doing."
-    s 1x "Well..."
-    s "Maybe that's why!"
-    s "Because I have no idea what I like, either!"
-    s 1r "Ahahaha!"
+    a "You wrote this for me?"
+    a "I had no idea you were such a good writer!"
+    mc "Apple..."
+    "{i}I impressed him! yaaaaaaaaaay!{/i}"
+    mc "You like my poem?"
+    a "Indeed..."
+    a "Well..."
+    a "Maybe that's why!"
+    mc "I actually looked forward to share it..."
+    a "I think you should share it more!"
     mc "Jeez..."
-    mc "Are you sure you don't like it just because I wrote it?"
-    s 1b "Eh?"
-    s "Well, I'm sure that's part of it."
-    s 1x "I think I understand you better than a lot of other people, you know?"
-    s "So when I read your poem..."
-    s "It's not just a poem..."
-    s 4q "It's a [player] poem!"
-    s "And that makes it feel extra special!"
-    s "Like I can feel your feelings in it~"
-    "Sayori hugs the sheet against her chest."
-    mc "You're so weird, Sayori..."
-    s "Ehehe..."
+    a "Do you usually share your poem with people?"
+    mc "No, I honestly have no one to share my poem with."
+    mc "I don't even have sister or brother!"
+    mc "Although, I just think it had better off in my PC..."
+    mc "..."
+    show apple sad zorder 2 at s11
+    a "I myself never have written a poem..."
+    a "{nw}{i}(Because I literally have no hands.){/i}"
+    mc "I know..."
     return
 
 label ch1_p_bad:
-    y 1g "..."
-    y "Mm..."
-    y "..."
-    "Yuri stares at the poem."
-    "A minute passes, more than enough time for her to finish reading."
+    p "..."
+    p "Mm..."
+    p "..."
+    "Pear stares at the poem."
+    "A minute passes, more than enough time for hhim to finish reading."
     mc "Um..."
-    y "Oh!"
-    y 3n "S-Sorry...!"
-    y "I forgot to start speaking..."
-    y "U-Um!"
-    mc "It's fine, don't force yourself."
-    y 2v "I'm not..."
-    y "I just need to put my thoughts into words."
-    y "Hold on..."
-    y "...Okay."
-    y 1f "This is your first time writing a poem, right?"
+    p "Oh!"
+    p "Well...that's not what I expected..."
+    mc "I'm not so skilled at writing poems..."
+    mc "It's not bad, right...?"
+    p "It's fine..."
+    p "I'm not judging, really!"
+    p "I myself don't write poems..."
+    mc "Hold on..."
+    mc "I thought if you usually read books, you should write just one poem...?"
+    p "If I read books, it doesn't mean I'm a kind of poet or something..."
     mc "Er, yeah..."
-    mc "Why do you ask?"
-    y "I'm just making sure."
-    y "I guessed that it might be after reading through it."
+    mc "I mean, I was assuming it because one of members in Literature Club likes reading novels and she actualy has aweesome handwriting..."
+    p "And writes metphorical poems."
+    mc "Yeah!"
     mc "Ah, so it's that bad."
-    y 2p "No!!"
-    y 2o "...Did I just raise my voice...?"
-    y 4c "Uu, I'm so sorry..."
-    "Yuri buries her face in her hands."
+    p "No!!"
     "I couldn't help but notice that it's been several minutes and we really haven't gotten anywhere."
-    "It might take Yuri a while to get used to new people..."
-    mc "It's fine, I really didn't notice."
-    mc "What were you saying?"
-    y 2u "Right...um..."
+    mc "Right...um..."
     return
 
 label ch1_p_med:
     jump ch1_p_bad
 
 label ch1_p_good:
-    y 1e "..."
-    "As Yuri reads the poem, I notice her eyes lighten."
-    y 2f "...Exceptional."
+    p "..."
+    "When Pear reads my poem, his eyes lighten."
+    p "...Exceptional."
     mc "Eh? What was that?"
-    y "...?"
-    y 2n "D-Did I say that out loud...?"
-    "Yuri first covers her mouth, but then ends up covering her whole face."
-    y 4c "I...!"
-    y "Uu..."
-    y "{i}(He's going to hate me...){/i}"
+    p "...?"
+    p "This so metaphorical..."
+    mc "The way you're saying it makes me feel like it's something in your style..."
+    p "That indeed it is!"
+    p "What kind of writing experience do you have?"
+    p "Your use of imagery and metaphors indicates you've written a lot of poetry before."
     mc "Um..."
-    mc "You really didn't do anything wrong, Yuri..."
-    y 4a "Eh...?"
-    y "That's..."
-    y 2q "I-I guess you're right..."
-    y "What am I getting so nervous for?"
-    y "A-Ahaha..."
-    show yuri 2l at t11
-    "Yuri takes a breath."
-    y "So..."
-    y 1a "What kind of writing experience do you have?"
-    y "Your use of imagery and metaphors indicates you've written a lot of poetry before."
-    mc "Really...?"
-    mc "Wow, that's a huge compliment coming from you."
-    mc "This is actually my first time, really."
-    y 1e "Huh...?"
-    "Yuri stares at me blankly, then looks at my poem again."
-    y "..."
-    y 2h "...Well, I know that!"
-    y "I just meant...u-um..."
-    "Yuri trails off, unable to find an excuse."
-    "She traces her finger along the words in the poem, as if breaking it down more thoroughly."
-    y 2l "...Yeah."
-    y "Okay."
-    y "This is the reason I was able to tell."
+    mc "I don't really write poems a lot..."
+    p "Eh...?"
+    show pear questioning zorder 2 at s11
+    "Pear stares at me blankly, then looks at my poem again."
+    p "This is the reason I was able to tell."
+    mc "Ehehe~ Thanks..."
     return
