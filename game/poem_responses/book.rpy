@@ -1,13 +1,13 @@
 label book:
-        define narrator = Character(None, kind=nvl)
-            show layer master at dizzy(0.5, 1.0)
-        show layer screens at dizzy(0.5, 1.0)
-        show expression Solid("ff0000") as i1 onlayer front:
-            additive 1.0
-        show expression Solid("#440000") as i2 onlayer front:
-            additive 0.4
-        show veins onlayer front:
-            additive 0.5
+    define narrator = Character(None, kind=nvl)
+    show layer master at dizzy(0.5, 1.0)
+    show layer screens at dizzy(0.5, 1.0)
+    show expression Solid("ff0000") as i1 onlayer front:
+        additive 1.0
+    show expression Solid("#440000") as i2 onlayer front:
+        additive 0.4
+    show veins onlayer front:
+        additive 0.5
     with wipeleft_scene
     play music t6r
     if renpy.random.randint(0,2) == 0:
