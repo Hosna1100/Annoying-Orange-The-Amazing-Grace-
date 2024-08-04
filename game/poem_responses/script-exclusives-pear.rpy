@@ -1,4 +1,4 @@
-label yuri_exclusive_1:
+label pear_exclusive_1:
     scene bg bedroom
     with wipeleft_scene
     play music t6
@@ -17,21 +17,21 @@ label yuri_exclusive_1:
     "She is the president of a literature club, after all."
     show pear normal zorder 2 at f11
     p "[player]..."
-    show pear <> zorder 2 at t11
+    show pear normal zorder 2 at t11
     "Pear enters my room and hops to reach to me."
     mc "So Pear, are you a fan of books?"
-    show pear <> zorder 2 at f11
+    show pear smilaway zorder 2 at f11
     p "Yeah...sometimes."
     mc "Have you ever read \"Portrait of Markov\"?"
     show pear questioning zorder 2 at f11
     p "No, what's that?"
-    show pear <> zorder 2 at t11
+    show pear normal zorder 2 at t11
     mc "Basically, it's about this girl in high school who moves in with her long-lost younger sister..."
     mc "But as soon as she does so, her life gets really strange."
     mc "She gets targeted by these people who escaped from a human experiment prison..."
     mc "And while her life is in danger, she needs to desperately choose who to trust."
     mc "No matter what she does, she ends up destroying most of her relationships and her life starts to fall apart..."
-    show pear surprised zorder 2 at f11
+    show pear stressed zorder 2 at f11
     p "That's dark..."
     show pear smiling
     p "I'd like to read it! Do you have it?"
@@ -46,7 +46,7 @@ label yuri_exclusive_1:
     "I grab that book from my desk."
     show pear zorder 2 at f11
     p "Anyways, let's read it now, shall we?"
-    show pear normal zorder 2 at t11
+    show pear closedeyeshappy zorder 2 at h11
     mc "Yeah!"
     hide pear
     scene read_p
@@ -58,11 +58,11 @@ label yuri_exclusive_1:
 label back:
     scene read_p
     show black zorder 4 with dissolve_cg
-            $ currentpos = get_pos() + 2.0
-        stop music fadeout 2.0
-        show black onlayer front:
-            alpha 0.0
-            linear 2.0 alpha 1.0
+    $ currentpos = get_pos() + 2.0
+    stop music fadeout 2.0
+    show black onlayer front:
+        alpha 0.0
+        linear 2.0 alpha 1.0
     if faint_effect:
         hide black onlayer front
         hide veins onlayer front
@@ -78,4 +78,5 @@ label back:
     "Yeah... I totally forgot that Pear is not into those things."
     "Anyways...I go for writing things for script-ch2.rpy!"
     return
+    
     
