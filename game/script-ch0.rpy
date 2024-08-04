@@ -2,8 +2,7 @@ label ch0_main:
     stop music fadeout 2.0
     scene bg kitchen
     $ renpy.movie_cutscene("rottenSmoothie.mp4")
-    show orange evil1 zorder 2 at t21
-    show apple worried zorder 2 at t22
+    show orange evil zorder 2 at t21
     o "Hey Apple!"
     show apple mad zorder 2 at h22
     a "What?"
@@ -11,8 +10,8 @@ label ch0_main:
     hide orange
     $ renpy.movie_cutscene("rottenSmoothie_cutscene_noaudio.mp4")
     $ renpy.movie_cutscene("rottenSmoothiecontinue.mp4")
-    show apple worried zorder 2 at t22
-    show orange evil1 zorder 2 at t21
+    show apple shocked zorder 2 at t22
+    show orange evil zorder 2 at t21
     $ renpy.call_screen("dialog", "Not this time!", ok_action=Return())
     show black:
         alpha 0
@@ -31,7 +30,7 @@ label ch0_main:
     scene bg kitchen
     show apple shocked zorder 2 at t11
     a "E-eh....."
-    show apple phew zorder 2 at t11
+    show apple closedeyes zorder 2 at t11
     a "Phew!"
     a "That was close!"
     a 1 "And..."
@@ -44,7 +43,6 @@ label ch0_main:
     a "I was going to say that!"
     "we come along Orange to ask him why he wanted to kill Apple."
     show orange normal zorder 3 at t21
-    show apple frown zorder 2 at t22
     a "Orange..."
     mc "Why did you wanted to kill Apple????"
     show orange sheepish zorder 3 at t21
