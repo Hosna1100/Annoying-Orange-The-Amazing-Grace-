@@ -1444,6 +1444,15 @@ image orange normal = im.Composite((960, 960), (0, 0), "mod_assets/orange/normal
 image orange evil = im.Composite((960, 960), (0, 0), "mod_assets/orange/evil.png")
 image orange glad = im.Composite((960, 960), (0, 0), "mod_assets/orange/glad.png")
 
+# Pear's definition
+image pear questioning = im.Composite((960, 960), (0, 0), "mod_assets/pear/questioning.png")
+image pear closedeyeshappy = im.Composite((960, 960), (0, 0), "mod_assets/pear/closedeyeshappy.png")
+image pear surprised = im.Composite((960, 960), (0, 0), "mod_assets/pear/surprised.png")
+image pear normal = im.Composite((960, 960), (0, 0), "mod_assets/pear/normal.png")
+image pear smiling = im.Composite((960, 960), (0, 0), "mod_assets/pear/smiling.png")
+# Unused
+image pear challenging = im.Composite((960, 960), (0, 0), "mod_assets/pear/challenging.png")
+image apple sadopen = im.Composite((960, 960), (0, 0), "mod_assets/apple/sadopen.png")
 ## Character Variables
 # This is where the characters are declared in the mod.
 # To define a new character with assets, declare a character variable like in this example:
@@ -1455,6 +1464,7 @@ define narrator = Character(ctc="ctc", ctc_position="fixed")
 define mc = DynamicCharacter('player', what_prefix='"', what_suffix='"', ctc="ctc", ctc_position="fixed", window_background=Image("/mod_assets/textboxmc.png", xalign=0.5, yalign=1.0))
 define o = DynamicCharacter('o_name', image='orange', what_prefix='"', what_suffix='"', ctc="ctc", ctc_position="fixed", window_background=Image("/mod_assets/textboxorange.png", xalign=0.5, yalign=1.0))
 define a = DynamicCharacter('a_name', image='apple', what_prefix='"', what_suffix='"', ctc="ctc", ctc_position="fixed", window_background=Image("/mod_assets/textboxred.png", xalign=0.5, yalign=1.0))
+define p = DynamicCharacter('p_name', image='pear', what_prefix='"', what_suffix='"', ctc="ctc", ctc_position="fixed", window_background=Image("/mod_assets/textboxgreen.png", xalign=0.5, yalign=1.0))
 # This variable determines whether to allow the player to dismiss pauses.
 # By default this is set by config.developer which is normally set to false
 # once you packaged your mod.
@@ -1526,7 +1536,7 @@ default faint_effect = None
 
 default o_name = "Orange"
 default a_name = "Apple"
-
+default p_name = "Pear"
 # Poem Variables
 # This section records how much each character likes your poem in-game.
 # Syntax:
@@ -1538,7 +1548,7 @@ default a_name = "Apple"
 
 default o_poemappeal = [0, 0, 0]
 default a_poemappeal = [0, 0, 0]
-
+default p_poemappeal = [0, 0, 0]
 # This variable keeps tracks on which person won the poem session after each day.
 default poemwinner = ['sayori', 'sayori', 'sayori']
 
