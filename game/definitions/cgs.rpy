@@ -300,6 +300,19 @@ image hug_a:
 image read_p:
     "mod_assets/read_p.png" 
 
+## Orange's route [Day 1]
+# this is a CG that MC and Orange watch Analog Horror of Annoying Orange
+image watch_o:
+    "mod_assets/watch_o.png"
+
+# Orange turns to you
+image watch_o2:
+    "mod_assets/watch_o2.png"
+
+# Orange is amused by MC's determinition to protect fruits
+image watch_o3:
+    "mod_assets/watch_o3.png"
+
 ## Sayori Suicide CG
 # This is the background of the CG (Sayori's Room).
 image s_kill_bg:
